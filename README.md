@@ -21,11 +21,10 @@ If you need to send private electronic messages to others, you typically have to
 
 ##Usage:##
 
-1. If you need to generate a private message, go to http://<servername>/ssms.php 
+1. If you need to generate a private message, go to http://servername/ssms.php 
 2. Fill out the message. **Hint:** If you don't want any identifying information, don't put your signature in the message. For example, simply write: 
-> Hey Robert,
-> 
-> Let's meet by the entrance of the restaurant at noon. I have something I need to show you.
+	Hey Robert, 
+	Let's meet by the entrance of the restaurant at noon. I have something I need to show you.
 3. When you are ready to save the message, click the "Save message and generate link" button and a unique URL will be generated for you.
 4. Copy and paste that URL to the messaging tool of your choice. Send the message to the recipient.
 5. The recipient will open the URL in their browser and the message will be retrieved and decoded for them to view. 
