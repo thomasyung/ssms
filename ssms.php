@@ -73,10 +73,20 @@ mysql_close($con);
 	<script>
 	$(function(){
 		<?php if (isset($messageid)) { ?>
-		var msg = "<?php echo $message; ?>";
-		if (msg != "") {
-			$("#msg").val($.base64.decode(msg));
-		}
+			<?php if (isset($message)) { ?>
+				var msg = "<?php echo $message; ?>";
+				var sentences = $.base64.decode(msg).match(/[^\.!\?]+[\.!\?]+/g);
+				$("#play").click(function(e){
+					e.preventDefault();
+					var queue = $.Deferred();
+					queue.resolve();
+					$.each(sentences, function(i, sentence){
+						queue = queue.pipe(function(){
+							return $("#playmsg").show().html(sentence).fadeOut(5000);
+						});
+					});
+				});
+			<?php } ?>
 		<?php } else { ?>
 		$("#secureform").submit(function(){
 			if ($("#msg").val() != "") {
@@ -112,13 +122,10 @@ mysql_close($con);
 		width: 100%;
 		background: #f0ffff;
 	}
-	#msg.disabled {
-		-webkit-touch-callout: none;
-		-webkit-user-select: none;
-		-khtml-user-select: none;
-		-moz-user-select: none;
-		-ms-user-select: none;
-		user-select: none;
+	#playmsg {
+		margin: 1em 0;
+		font-size: 1.2em;
+		background: #f0ffff;
 	}
 	.highlight {
 		background: yellow;
@@ -155,7 +162,10 @@ mysql_close($con);
 		<form id="secureform" action="<?php echo $thisscript; ?>" method="post">
 			<label for="msg">Your message:</label>
 			<?php if (isset($messageid)) { ?>
-				<textarea id="msg" name="msg" class="disabled" disabled="disabled" rows="15"></textarea>
+				<?php if (isset($message)) { ?>
+					<button id="play">Play message</button>
+					<div id="playmsg"></div>
+				<?php } ?>
 				<p>To create your own single-use message, click <a href="<?php echo $thisscript; ?>">here</a>.</p>
 			<?php } else { ?>
 				<textarea id="msg" name="msg" rows="15"></textarea>
