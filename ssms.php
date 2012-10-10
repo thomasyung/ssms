@@ -69,7 +69,7 @@ mysql_close($con);
 	<meta name="viewport" content="width=device-width">
 	<title>Secure single-use message system</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-	<script src="https://raw.github.com/carlo/jquery-base64/master/jquery.base64.min.js"></script>
+	<script src="jquery.base64.min.js"></script>
 	<script>
 	$(function(){
 		<?php if (isset($messageid)) { ?>
