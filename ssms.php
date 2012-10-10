@@ -33,6 +33,11 @@ function get_ip_address() {
 // Retrieve the message from the database based on the messageid passed to us in the GET request
 if (isset($_GET['messageid'])) {
 	$messageid = $_GET['messageid'];
+	if (strlen($messageid) != 13) {
+		echo('Invalid message id. Must be 13 chars only.');
+		mysql_close($con);
+		exit;
+	}
 	$result = mysql_query("select * from messages where id='".$messageid."'");
 	while ($row = mysql_fetch_array($result)) {
 		if ($row['viewed'] == 0) {
@@ -49,7 +54,9 @@ if (isset($_GET['messageid'])) {
 
 // Save the message that was posted from the form
 if (isset($_POST['msg'])) {
-	mysql_query("insert into messages (id, message, viewed) values ('".$uuid."','".$_POST['msg']."','0')");
+	if (base64_decode($_POST['msg'], true)) {
+		mysql_query("insert into messages (id, message, viewed) values ('".$uuid."','".$_POST['msg']."','0')");
+	}
 }
 
 // clean up MySQL connection
