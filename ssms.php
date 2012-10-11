@@ -57,6 +57,11 @@ if (isset($_POST['msg'])) {
 	if (base64_decode($_POST['msg'], true)) {
 		mysql_query("insert into messages (id, message, viewed) values ('".$uuid."','".$_POST['msg']."','0')");
 	}
+	else {
+		echo "There was a problem with the post.";
+		mysql_close($con);
+		exit;
+	}
 }
 
 // clean up MySQL connection
@@ -69,13 +74,13 @@ mysql_close($con);
 	<meta name="viewport" content="width=device-width">
 	<title>Secure single-use message system</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-	<script src="jquery.base64.min.js"></script>
 	<script>
+	function base64_decode(a){var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";var c,d,e,f,g,h,i,j,k=0,l=0,m="",n=[];if(!a){return a}a+="";do{f=b.indexOf(a.charAt(k++));g=b.indexOf(a.charAt(k++));h=b.indexOf(a.charAt(k++));i=b.indexOf(a.charAt(k++));j=f<<18|g<<12|h<<6|i;c=j>>16&255;d=j>>8&255;e=j&255;if(h==64){n[l++]=String.fromCharCode(c)}else if(i==64){n[l++]=String.fromCharCode(c,d)}else{n[l++]=String.fromCharCode(c,d,e)}}while(k<a.length);m=n.join("");return m}function base64_encode(a){var b="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";var c,d,e,f,g,h,i,j,k=0,l=0,m="",n=[];if(!a){return a}do{c=a.charCodeAt(k++);d=a.charCodeAt(k++);e=a.charCodeAt(k++);j=c<<16|d<<8|e;f=j>>18&63;g=j>>12&63;h=j>>6&63;i=j&63;n[l++]=b.charAt(f)+b.charAt(g)+b.charAt(h)+b.charAt(i)}while(k<a.length);m=n.join("");var o=a.length%3;return(o?m.slice(0,o-3):m)+"===".slice(o||3)}
 	$(function(){
 		<?php if (isset($messageid)) { ?>
 			<?php if (isset($message)) { ?>
 				var msg = "<?php echo $message; ?>";
-				var sentences = $.base64.decode(msg).match(/[^\.!\?]+[\.!\?]+/g);
+				var sentences = base64_decode(msg).match(/[^\.!\?]+[\.!\?]+/g);
 				$("#play").click(function(e){
 					e.preventDefault();
 					var queue = $.Deferred();
@@ -88,9 +93,9 @@ mysql_close($con);
 				});
 			<?php } ?>
 		<?php } else { ?>
-		$("#secureform").submit(function(){
+		$("#secureform").submit(function(e){
 			if ($("#msg").val() != "") {
-				$("#msg").val($.base64.encode($("#msg").val()));
+				$("#msg").val(base64_encode($("#msg").val()));
 			} else {
 				alert("Message is empty. Please fill out your message.");
 				$("#msg").focus();
