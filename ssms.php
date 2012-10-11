@@ -158,7 +158,7 @@ mysql_close($con);
 		<?php if (isset($messageid)) { ?>
 			<b>Note:</b> The contents of this message can only be viewed once. If you came here, and the message is not viewable, then this message has already been read. Contents are destroyed on the server as soon as the message has been read.
 		<?php } else { ?>
-			<b>Note:</b> Use this form to generate a secure single-use message that can only be read ONCE by the recipient. There is no identifying information other than what what you put into the text box. When you are done composing your message, click the button to generate a unique URL that you can send to your intended recipient. Contents of the message are destroyed on the server as soon as the message has been retrieved.
+			<b>Note:</b> Use this form to generate a secure single-use message that can only be read ONCE by the recipient. When you are done composing your message, click the button to generate a unique URL that you can send to your intended recipient. Contents of the message are destroyed on the server as soon as the message has been retrieved.
 		<?php } ?>
 		</p>
 		<?php if (isset($timestamp) && isset($ipaddress)) { ?>
