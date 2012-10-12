@@ -80,7 +80,11 @@ mysql_close($con);
 		<?php if (isset($messageid)) { ?>
 			<?php if (isset($message)) { ?>
 				var msg = "<?php echo $message; ?>";
-				var sentences = base64_decode(msg).match(/[^\.!\?]+[\.!\?]+/g);
+				var msg_decoded = base64_decode(msg);
+				var sentences = msg_decoded.match(/[^\.!\?]+[\.!\?]+/g);
+				if (!sentences){
+					sentences = [msg_decoded];
+				}
 				$("#play").click(function(e){
 					e.preventDefault();
 					var queue = $.Deferred();
